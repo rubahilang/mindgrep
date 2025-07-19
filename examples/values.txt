@@ -1,0 +1,4 @@
+TODO: fix this function
+password = "secret123"
+foxy the fox jumps over the lazy dog
+hello world

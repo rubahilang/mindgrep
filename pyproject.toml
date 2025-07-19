@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mindgrep"
+version = "1.2.4"
+description = "Semantic grep (AST‑based, no LLM)"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [
+  { name="HiddenFoxy", email="rubahilang@gmail.com" }
+]
+dependencies = [
+  "colorama>=0.4.6",
+  "tabulate>=0.8.10",
+  "rapidfuzz>=2.16.1",
+  "GitPython>=3.1.30",
+  "rich>=12.6.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hiddenfoxy/mindgrep"
+"Source"   = "https://github.com/hiddenfoxy/mindgrep"
+
+[project.scripts]
+mindgrep = "mindgrep:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mindgrep", "mindgrep.*"]
+exclude = ["tests*"]
