@@ -46,67 +46,115 @@ mindgrep -V "TODO" . -F txt -N notes
 
 Plain‑text search “TODO” in `.txt` files whose name contains “notes”.
 
-```bash
-mindgrep "file io" examples -T
-```
+---
 
-Styled ASCII table.
+## 📖 Example Session
 
 ```bash
-mindgrep shell examples -J
+$> mindgrep --intent-list
+Supported intents:
+  - async tasks
+  - caching
+  - cli parsing
+  - compression
+  - csv
+  - database access
+  - email sending
+  - error handling
+  - file encryption
+  - file io
+  - http request
+  - http server
+  - image processing
+  - json
+  - logging
+  - regex
+  - shell exec
+  - socket
+  - threading
+  - validation
+  - xml
+  - yaml
+
+$> mindgrep http examples
+D:\RB\mindgrep\examples\
+└── http_example.py:6,7,8,9
+
+$> mindgrep -V "foxy" examples -F txt -N values
+D:\RB\mindgrep\
+└── examples\
+    └── values.txt:3
+
+$> mindgrep "file io" examples -T
+╒════════════════════════════╤════════╤═══════════════════════════════════════════╕
+│ Path                       │   Line │ Code                                      │
+╞════════════════════════════╪════════╪═══════════════════════════════════════════╡
+│ examples\fileio_example.py │      8 │ shutil.copy("temp.txt", "temp_copy.txt")  │
+│ examples\fileio_example.py │      9 │ os.rename("temp_copy.txt", "renamed.txt") │
+│ examples\fileio_example.py │     10 │ os.remove("temp.txt")                     │
+│ examples\fileio_example.py │     11 │ os.remove("renamed.txt")                  │
+╘════════════════════════════╧════════╧═══════════════════════════════════════════╛
+
+$> mindgrep shell examples -J
+[
+  {"path":"examples\\shell_exec_example.py","line":6,"code":"os.system(\"echo 'Hello from os.system'\")"},
+  {"path":"examples\\shell_exec_example.py","line":7,"code":"cmd = shlex.split(\"echo Hello from subprocess\")"},
+  {"path":"examples\\shell_exec_example.py","line":8,"code":"result = subprocess.run(cmd, capture_output=True, text=True)"}
+]
+
+$> mindgrep regex examples -C 1
+D:\RB\mindgrep\examples\
+└── regex_example.py:3,4,5,6,7
+
+$> mindgrep -V "TODO" examples --staged --blame
+⚠️  Not a git repo, ignoring --staged
+D:\RB\mindgrep\
+└── examples\
+    └── values.txt:1
+
+$> mindgrep db examples --stats --report markdown
+mindgrep Report
+- Time: 2025-07-20 06:00:00.123456
+- Files: 1
+- Hits:  2
+
+$> mindgrep json examples --interactive
+
+                             mindgrep Interactive                             
+┏━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Idx ┃ File                     ┃ Line ┃ Code                               ┃
+┡━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│   1 │ examples\json_example.py │ 4    │ data = json.loads('{"x":1,"y":2}') │
+│   2 │ examples\json_example.py │ 6    │ out = json.dumps(data)             │
+└─────┴──────────────────────────┴──────┴────────────────────────────────────┘
+Select index to open (ENTER to skip):
 ```
-
-JSON output.
-
-```bash
-mindgrep regex examples -C 2
-```
-
-Show 2 lines of context around each match.
-
-```bash
-mindgrep -V "password" . --staged --blame
-```
-
-Only staged files, show Git blame.
-
-```bash
-mindgrep db examples --stats --report markdown
-```
-
-Show summary report in colored Markdown.
-
-```bash
-mindgrep json examples --interactive
-```
-
-Interactive TUI—select a match to open in your editor.
 
 ---
 
 ## ⚙️ Features
 
-- **Intent‑based AST search**: `http request`, `file encryption`, `shell exec`, `database access`, and more.
-- **Alias & fuzzy lookup**: query by short names or typos (e.g. `db`, `crypto`).
-- **Plain‑text search** `-V`: any file type, with `-F` (extension) and `-N` (filename) filters.
-- **Output modes**:
-  - Tree view (default),
-  - Table (`-T`),
-  - JSON (`-J`),
-  - Interactive (`--interactive`).
-- **Context lines** `-C`: show lines around each match.
-- **Git integration**: `--staged` safe‑ignore if not a repo; `--blame`.
-- **Stats & Reports**: `--stats` + `--report [markdown|html|json]`, colored output.
-- **Themes**: light/dark (`--theme`).
+- **Intent‑based AST search**: `http request`, `file encryption`, `shell exec`, `database access`, and more.  
+- **Alias & fuzzy lookup**: query by short names or typos (e.g. `db`, `crypto`).  
+- **Plain‑text search** `-V`: any file type, with `-F` (extension) and `-N` (filename) filters.  
+- **Output modes**:  
+  - Tree view (default),  
+  - Table (`-T`),  
+  - JSON (`-J`),  
+  - Interactive (`--interactive`).  
+- **Context lines** `-C`: show lines around each match.  
+- **Git integration**: `--staged` safe‑ignore if not a repo; `--blame`.  
+- **Stats & Reports**: `--stats` + `--report [markdown|html|json]`, colored output.  
+- **Themes**: light/dark (`--theme`).  
 - **Standalone**: single script or installable package, no extra config.
 
 ---
 
 ## 🙌 Contributing
 
-1. Fork & clone
-2. Create a branch
-3. Add features or fix bugs
-4. Submit a Pull Request
+1. Fork & clone  
+2. Create a branch  
+3. Add features or fix bugs  
+4. Submit a Pull Request  
 
 Follow existing style and add tests/examples in `examples/`.
