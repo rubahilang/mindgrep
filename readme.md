@@ -29,19 +29,19 @@ pip install "git+https://github.com/rubahilang/mindgrep.git"
 ## 📦 Usage
 
 ```bash
-mindgrep --intent-list
+python -m mindgrep --intent-list
 ```
 
 List all supported intents.
 
 ```bash
-mindgrep "http request" ./src
+python -m mindgrep "http request" ./src
 ```
 
 AST‑search for HTTP calls (default tree view).
 
 ```bash
-mindgrep -V "TODO" . -F txt -N notes
+python -m mindgrep -V "TODO" . -F txt -N notes
 ```
 
 Plain‑text search “TODO” in `.txt` files whose name contains “notes”.
@@ -51,7 +51,7 @@ Plain‑text search “TODO” in `.txt` files whose name contains “notes”.
 ## 📖 Example Session
 
 ```bash
-$> mindgrep --intent-list
+$> python -m mindgrep --intent-list
 Supported intents:
   - async tasks
   - caching
@@ -76,12 +76,12 @@ Supported intents:
   - xml
   - yaml
 
-$> mindgrep http examples
-D:\RB\mindgrep\examples\
+$> python -m mindgrep http examples
+$>\mindgrep\examples\
 └── http_example.py:6,7,8,9
 
-$> mindgrep -V "foxy" examples -F txt -N values
-D:\RB\mindgrep\
+$> python -m mindgrep -V "foxy" examples -F txt -N values
+$>\mindgrep\
 └── examples\
     └── values.txt:3
 
@@ -102,17 +102,17 @@ $> mindgrep shell examples -J
   {"path":"examples\\shell_exec_example.py","line":8,"code":"result = subprocess.run(cmd, capture_output=True, text=True)"}
 ]
 
-$> mindgrep regex examples -C 1
-D:\RB\mindgrep\examples\
+$> python -m mindgrep regex examples -C 1
+$>\mindgrep\examples\
 └── regex_example.py:3,4,5,6,7
 
-$> mindgrep -V "TODO" examples --staged --blame
+$> python -m mindgrep -V "TODO" examples --staged --blame
 ⚠️  Not a git repo, ignoring --staged
-D:\RB\mindgrep\
+$>\mindgrep\
 └── examples\
     └── values.txt:1
 
-$> mindgrep db examples --stats --report markdown
+$> python -m mindgrep db examples --stats --report markdown
 mindgrep Report
 - Time: 2025-07-20 06:00:00.123456
 - Files: 1
