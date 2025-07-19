@@ -98,7 +98,6 @@ Interactive TUI—select a match to open in your editor.
 - **Git integration**: `--staged` safe‑ignore if not a repo; `--blame`.
 - **Stats & Reports**: `--stats` + `--report [markdown|html|json]`, colored output.
 - **Themes**: light/dark (`--theme`).
-- **Plugins**: drop‑in `plugins/*.py`.
 - **Standalone**: single script or installable package, no extra config.
 
 ---
