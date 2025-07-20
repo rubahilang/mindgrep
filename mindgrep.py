@@ -19,9 +19,8 @@ from rich.table import Table
 init(autoreset=True)
 RESET = Style.RESET_ALL
 
-# Default intents & AST patterns
+# ─── INTENT PATTERNS & ALIASES ───────────────────────────────────────────────
 INTENT_PATTERNS = {
-    # HTTP clients & requests
     "http request": [
         "requests.get", "requests.post", "requests.put", "requests.delete",
         "requests.head", "requests.options", "requests.patch",
@@ -33,8 +32,6 @@ INTENT_PATTERNS = {
         "tornado.httpclient.AsyncHTTPClient.fetch",
         "tornado.httpclient.HTTPClient.fetch",
     ],
-
-    # File/data encryption & hashes
     "file encryption": [
         "cryptography.fernet.Fernet", "Fernet(",
         "AES.new", "Crypto.Cipher.AES.new",
@@ -43,27 +40,20 @@ INTENT_PATTERNS = {
         "hmac.new", "hashlib.pbkdf2_hmac", "scrypt",
         "rsa.encrypt", "RSA.import_key", "Crypto.PublicKey.RSA.generate",
     ],
-
-    # Shell / OS command execution
     "shell exec": [
         "os.system", "os.popen", "subprocess.run", "subprocess.Popen",
         "subprocess.call", "subprocess.check_output", "subprocess.check_call",
         "subprocess.Popen(shell=True", "commands.getoutput",
         "pexpect.spawn", "shlex.split", "fabric.Connection", "paramiko.SSHClient",
     ],
-
-    # Databases & key‐value stores
     "database access": [
         "sqlite3.connect", "psycopg2.connect", "pymysql.connect",
         "mysql.connector.connect", "sqlalchemy.create_engine",
-        "cursor.execute", "engine.execute",
-        "pymongo.MongoClient", "redis.Redis",
+        "cursor.execute", "engine.execute", "pymongo.MongoClient", "redis.Redis",
         "motor.motor_asyncio.AsyncIOMotorClient",
         "boto3.resource('dynamodb')", "boto3.client('dynamodb')",
         "neo4j.GraphDatabase.driver", "elasticsearch.Elasticsearch",
     ],
-
-    # File system & I/O
     "file io": [
         "open(", "Path.open(", "Path.write_text", "Path.read_text",
         "os.remove", "os.unlink", "os.rename",
@@ -71,103 +61,73 @@ INTENT_PATTERNS = {
         "shutil.rmtree", "tempfile.NamedTemporaryFile",
         "tempfile.TemporaryDirectory", "glob.glob", "os.walk",
     ],
-
-    # JSON serialization
     "json": [
         "json.load", "json.loads", "json.dump", "json.dumps",
         "simplejson.loads", "simplejson.dumps",
         "ujson.loads", "ujson.dumps",
     ],
-
-    # XML parsing
     "xml": [
         "xml.etree.ElementTree.parse", "xml.etree.ElementTree.fromstring",
         "lxml.etree.parse", "lxml.objectify.fromstring",
         "xml.dom.minidom.parseString", "xml.sax.make_parser",
         "bs4.BeautifulSoup", "BeautifulSoup(",
     ],
-
-    # YAML parsing
     "yaml": [
         "yaml.safe_load", "yaml.load", "yaml.FullLoader", "yaml.RoundTripLoader",
         "ruamel.yaml.YAML().load", "ruamel.yaml.round_trip_load",
     ],
-
-    # CSV & tabular
     "csv": [
         "csv.reader", "csv.writer", "csv.DictReader", "csv.DictWriter",
         "pandas.read_csv", "pandas.DataFrame.to_csv",
         "numpy.loadtxt", "numpy.savetxt",
     ],
-
-    # Regular expressions
     "regex": [
         "re.search", "re.match", "re.findall", "re.sub", "re.compile",
         "regex.search", "regex.match",
     ],
-
-    # Logging & print
     "logging": [
         "logging.debug", "logging.info", "logging.warning",
         "logging.error", "logging.critical", "logger.log",
         "print(", "warnings.warn", "sys.stderr.write",
     ],
-
-    # Concurrency: threads & processes
     "threading": [
         "threading.Thread", "concurrent.futures.ThreadPoolExecutor",
         "concurrent.futures.ProcessPoolExecutor",
         "multiprocessing.Process", "multiprocessing.Pool",
         "multiprocessing.dummy.Pool",
     ],
-
-    # Async libraries
     "async tasks": [
         "asyncio.create_task", "asyncio.run", "asyncio.gather",
         "asyncio.ensure_future", "trio.run", "curio.run", "anyio.run",
     ],
-
-    # Sockets & websockets
     "socket": [
         "socket.socket", "socket.bind", "socket.listen", "socket.connect",
         "ssl.wrap_socket", "ssl.SSLContext", "asyncio.open_connection",
         "asyncio.start_server", "websockets.connect", "websockets.serve",
     ],
-
-    # HTTP/server frameworks
     "http server": [
         "http.server.HTTPServer", "http.server.SimpleHTTPRequestHandler",
         "flask.Flask", "FastAPI(", "django.urls", "Sanic(",
         "bottle.Bottle", "tornado.web.Application", "aiohttp.web.Application",
     ],
-
-    # Compression & archives
     "compression": [
         "zipfile.ZipFile", "tarfile.open", "gzip.open",
         "bz2.BZ2File", "lzma.open", "shutil.make_archive",
         "patoolib.extract_archive",
     ],
-
-    # Image processing
     "image processing": [
         "PIL.Image.open", "PIL.Image.save", "cv2.imread", "cv2.imwrite",
         "cv2.VideoCapture", "skimage.io.imread", "skimage.io.imsave",
         "Image.fromarray", "matplotlib.pyplot.imshow",
     ],
-
-    # CLI parsing
     "cli parsing": [
         "argparse.ArgumentParser", "click.command", "typer.Typer",
         "optparse.OptionParser", "docopt.docopt", "sys.argv",
     ],
-
-    # Caching layers
     "caching": [
         "functools.lru_cache", "cachetools.Cache", "django.core.cache",
         "redis_cache.Cache", "dogpile.cache", "memcache.Client",
     ],
-
-    # Tambahan umum:
     "email sending": [
         "smtplib.SMTP", "smtplib.SMTP_SSL",
         "email.mime.text.MIMEText", "EmailMessage",
@@ -185,7 +145,6 @@ INTENT_PATTERNS = {
         "try:", "except", "finally:", "raise", "assert", "logging.exception",
     ],
 }
-
 
 INTENT_ALIASES = {
     "http request":       ["http", "url", "req", "request", "httpx", "urllib"],
@@ -219,62 +178,56 @@ ALIAS_MAP = {
     for alias in aliases
 }
 
-# Theme definitions
 THEMES = {
     "light": {
-        "dir":        Fore.CYAN + Style.BRIGHT,
-        "file":       Fore.GREEN + Style.BRIGHT,
-        "line":       Fore.YELLOW,
-        "code":       Fore.WHITE,
-        "conn":       Fore.MAGENTA,
-        "stat_hdr":   Fore.CYAN + Style.BRIGHT,
-        "stat_val":   Fore.YELLOW,
+        "dir":      Fore.CYAN + Style.BRIGHT,
+        "file":     Fore.GREEN + Style.BRIGHT,
+        "line":     Fore.YELLOW,
+        "code":     Fore.WHITE,
+        "conn":     Fore.MAGENTA,
+        "stat_hdr": Fore.CYAN + Style.BRIGHT,
+        "stat_val": Fore.YELLOW,
     },
     "dark": {
-        "dir":        Fore.BLUE + Style.BRIGHT,
-        "file":       Fore.WHITE + Style.BRIGHT,
-        "line":       Fore.MAGENTA,
-        "code":       Fore.WHITE,
-        "conn":       Fore.YELLOW,
-        "stat_hdr":   Fore.CYAN + Style.BRIGHT,
-        "stat_val":   Fore.YELLOW,
+        "dir":      Fore.BLUE + Style.BRIGHT,
+        "file":     Fore.WHITE + Style.BRIGHT,
+        "line":     Fore.MAGENTA,
+        "code":     Fore.WHITE,
+        "conn":     Fore.YELLOW,
+        "stat_hdr": Fore.CYAN + Style.BRIGHT,
+        "stat_val": Fore.YELLOW,
     },
 }
+
 DIR_COLOR = FILE_COLOR = LINE_COLOR = CODE_COLOR = CONN_COLOR = ""
 STAT_HDR = STAT_VAL = ""
 
-def apply_theme(name):
+def apply_theme(name: str):
     global DIR_COLOR, FILE_COLOR, LINE_COLOR, CODE_COLOR, CONN_COLOR, STAT_HDR, STAT_VAL
     th = THEMES.get(name, THEMES["light"])
-    DIR_COLOR  = th["dir"]
-    FILE_COLOR = th["file"]
-    LINE_COLOR = th["line"]
-    CODE_COLOR = th["code"]
+    DIR_COLOR, FILE_COLOR = th["dir"], th["file"]
+    LINE_COLOR, CODE_COLOR = th["line"], th["code"]
     CONN_COLOR = th["conn"]
-    STAT_HDR   = th["stat_hdr"]
-    STAT_VAL   = th["stat_val"]
+    STAT_HDR, STAT_VAL = th["stat_hdr"], th["stat_val"]
 
-# ──────────────────────────────────────────────────
 def load_plugins():
     plugins = {}
     pd = os.path.join(os.path.dirname(__file__), "plugins")
     if os.path.isdir(pd):
         for fn in sorted(os.listdir(pd)):
             if fn.endswith(".py"):
-                path = os.path.join(pd, fn)
-                spec = importlib_util.spec_from_file_location(fn, path)
+                spec = importlib_util.spec_from_file_location(fn, os.path.join(pd, fn))
                 mod  = importlib_util.module_from_spec(spec)
                 spec.loader.exec_module(mod)
                 plugins[fn[:-3]] = mod
     return plugins
 
-# AST helpers
 def get_full_name(node):
     if isinstance(node, ast.Name):
         return node.id
     if isinstance(node, ast.Attribute):
-        parent = get_full_name(node.value)
-        return f"{parent}.{node.attr}"
+        p = get_full_name(node.value)
+        return f"{p}.{node.attr}"
     return None
 
 def scan_file_ast(fp, patterns):
@@ -293,21 +246,20 @@ def scan_file_ast(fp, patterns):
                 hits.append((ln, code))
     return hits
 
-def find_intent_matches(intent, root, file_ext=None, name_filter=None):
+def find_intent_matches(intent, root, file_ext=None, name_filter=None, file_name_exact=None):
     patterns = INTENT_PATTERNS[intent]
     matches, results = {}, []
     ext = file_ext.lstrip(".").lower() if file_ext else None
-
     for dp, _, files in os.walk(root):
         for fn in sorted(files):
+            if file_name_exact and fn != file_name_exact:
+                continue
             low = fn.lower()
-            if ext:
-                if not low.endswith(f".{ext}"):
-                    continue
-            else:
-                if not low.endswith(".py"):
-                    continue
+            if ext and not low.endswith(f".{ext}"):
+                continue
             if name_filter and name_filter.lower() not in low:
+                continue
+            if not fn.lower().endswith(".py"):
                 continue
             full = os.path.join(dp, fn)
             hits = scan_file_ast(full, patterns)
@@ -317,18 +269,17 @@ def find_intent_matches(intent, root, file_ext=None, name_filter=None):
                     results.append({"path": full, "line": ln, "code": code})
     return matches, results
 
-# Plain‑text search
-def search_value(val, root, file_ext=None, name_filter=None):
+def search_value(val, root, file_ext=None, name_filter=None, file_name_exact=None):
     ext = file_ext.lstrip(".").lower() if file_ext else None
     lowval = val.lower()
     matches, results = {}, []
-
     for dp, _, files in os.walk(root):
         for fn in sorted(files):
+            if file_name_exact and fn != file_name_exact:
+                continue
             low = fn.lower()
-            if ext:
-                if not low.endswith(f".{ext}"):
-                    continue
+            if ext and not low.endswith(f".{ext}"):
+                continue
             if name_filter and name_filter.lower() not in low:
                 continue
             full = os.path.join(dp, fn)
@@ -342,18 +293,15 @@ def search_value(val, root, file_ext=None, name_filter=None):
                 continue
     return matches, results
 
-# Context lines
 def with_context(path, lineno, ctx=3):
     lines = open(path, encoding="utf-8", errors="ignore").read().splitlines()
-    start, end = max(1, lineno-ctx), min(len(lines), lineno+ctx)
-    return [(i, lines[i-1].rstrip()) for i in range(start, end+1)]
+    s, e = max(1, lineno-ctx), min(len(lines), lineno+ctx)
+    return [(i, lines[i-1].rstrip()) for i in range(s, e+1)]
 
-# Fuzzy intent resolution
 def resolve_intent(q, intents):
-    match, score, _ = process.extractOne(q, intents)
-    return match if score >= 60 else None
+    m, score, _ = process.extractOne(q, intents)
+    return m if score >= 60 else None
 
-# Git integration
 def get_staged_files(rp):
     try:
         repo = Repo(rp, search_parent_directories=True)
@@ -371,7 +319,6 @@ def get_blame(path, lineno):
     except Exception:
         return None, None
 
-# Metrics & reporting
 def stats(matches):
     return {
         "timestamp": str(datetime.datetime.now()),
@@ -391,7 +338,6 @@ def export_report(data, fmt="markdown"):
             f"<li>Hits: {data['hits']}</li></ul>"
             "</body></html>"
         )
-    # markdown default
     return (
         f"**mindgrep Report**\n"
         f"- Time: {data['timestamp']}\n"
@@ -406,11 +352,11 @@ def print_report(data, fmt="markdown"):
         print(export_report(data, "html"))
     else:
         print(f"{STAT_HDR}mindgrep Report{RESET}")
-        print(f"{STAT_HDR}- Time:{RESET} {STAT_VAL}{data['timestamp']}{RESET}")
+        print(f"{STAT_HDR}- Time:{RESET}  {STAT_VAL}{data['timestamp']}{RESET}")
         print(f"{STAT_HDR}- Files:{RESET} {STAT_VAL}{data['files']}{RESET}")
         print(f"{STAT_HDR}- Hits:{RESET}  {STAT_VAL}{data['hits']}{RESET}")
 
-# Interactive TUI
+
 def interactive_view(matches):
     console = Console()
     table   = Table(title="mindgrep Interactive")
@@ -419,8 +365,7 @@ def interactive_view(matches):
     table.add_column("Line")
     table.add_column("Code")
 
-    rows = []
-    idx = 1
+    rows, idx = [], 1
     for path, hits in matches.items():
         for ln, code in hits:
             table.add_row(str(idx), path, str(ln), code)
@@ -429,7 +374,6 @@ def interactive_view(matches):
 
     console.print(table)
     choice = console.input("Select index to open (ENTER to skip): ")
-
     if not choice.isdigit():
         return
 
@@ -438,51 +382,44 @@ def interactive_view(matches):
         color_error("⚠️  Invalid selection")
         return
 
-    file_path, line_no = rows[sel]
-
-    # Tentukan editor
+    fp, ln = rows[sel]
     if os.name == "nt":
-        editor = os.environ.get("EDITOR", "notepad")
-        args = [editor, file_path]               # Notepad buka tanpa +line
+        ed, args = os.environ.get("EDITOR", "notepad"), [fp]
     else:
-        editor = os.environ.get("EDITOR", "vim")
-        args = [editor, f"+{line_no}", file_path]
+        ed, args = os.environ.get("EDITOR", "vim"), [f"+{ln}", fp]
 
-    console.print(f"Opening {file_path}:{line_no} in {editor}")
-
+    console.print(f"Opening {fp}:{ln} in {ed}")
     try:
-        subprocess.run(args)
+        subprocess.run([ed] + args)
     except FileNotFoundError:
-        color_error(f"⚠️  Editor '{editor}' not found. Please set the EDITOR env var.")
+        color_error(f"⚠️  Editor '{ed}' not found.")
 
-
-# Utilities
 def color_error(msg):
     print(f"{Fore.RED}{Style.BRIGHT}{msg}{RESET}")
 
 def build_tree(matches, root):
     tree = {}
-    for full, hits in matches.items():
-        rel = os.path.relpath(full, root)
+    for full_path, hits in matches.items():
+        lines = [ln for ln, _ in hits]
+        rel = os.path.relpath(full_path, root)
         parts = rel.split(os.sep)
+
         node = tree
-        for p in parts[:-1]:
-            node = node.setdefault(p, {})
-        nums = [ln for ln, _ in hits]
-        node.setdefault(parts[-1], []).extend(nums)
+        for part in parts[:-1]:
+            node = node.setdefault(part, {})
+        node.setdefault(parts[-1], []).extend(lines)
     return tree
 
 def print_tree(tree, prefix=""):
     items = list(tree.items())
     for i, (name, val) in enumerate(items):
-        last = (i == len(items)-1)
+        last = (i == len(items) - 1)
         conn = f"{CONN_COLOR}{'└──' if last else '├──'}{RESET}"
         if isinstance(val, dict):
             print(f"{prefix}{conn} {DIR_COLOR}{name}{os.sep}{RESET}")
-            ext = "    " if last else "│   "
-            print_tree(val, prefix + ext)
+            print_tree(val, prefix + ("    " if last else "│   "))
         else:
-            nums = ",".join(str(n) for n in sorted(set(val)))
+            nums = ",".join(str(n) for n in sorted(val))
             print(f"{prefix}{conn} {FILE_COLOR}{name}{RESET}:{LINE_COLOR}{nums}{RESET}")
 
 def output_table(matches):
@@ -497,29 +434,82 @@ def output_table(matches):
     clr = [[r[0], f"{STAT_VAL}{r[1]}{RESET}", f"{CODE_COLOR}{r[2]}{RESET}"] for r in rows]
     print(tabulate(clr, headers=hdr, tablefmt="fancy_grid"))
 
-# ──────────────────────────────────────────────────
 def main():
-    p = argparse.ArgumentParser(prog="mindgrep", description="semantic grep for Python (fixed)")
-    p.add_argument("intent", nargs="?", help="intent name (ignored if -V)")
-    p.add_argument("path",   nargs="?", default=".", help="root folder to scan")
-    p.add_argument("-V","--value",    metavar="VAL", help="plain-text search")
-    p.add_argument("-T","--table",    action="store_true", help="styled table")
-    p.add_argument("-J","--json",     action="store_true", help="JSON output")
-    p.add_argument("-F","--file",     dest="file_ext",    help="filter by extension")
-    p.add_argument("-N","--name",     dest="name_filter", help="filter by filename")
-    p.add_argument("-C","--context",  type=int, default=0,   help="context lines")
-    p.add_argument("--staged",        action="store_true",  help="scan staged only")
-    p.add_argument("--blame",         action="store_true",  help="show git blame")
-    p.add_argument("--stats",         action="store_true",  help="show stats")
-    p.add_argument("--report",        choices=["markdown","html","json"], help="export report")
-    p.add_argument("--interactive",   action="store_true",  help="interactive mode")
-    p.add_argument("--intent-list",   action="store_true",  help="list intents")
-    p.add_argument("--theme",         choices=["light","dark"], default="light", help="color theme")
-    args = p.parse_args()
+    desc = """\
+MindGrep: Semantic-aware code search for any codebase.
+Intent-based AST search + text search + Git/blame + interactive TUI + stats & reports.
 
+Contoh:
+  --FN "main.py"    → exact match file “main.py”
+  -X "a.py,b.txt"   → kecualikan file a.py dan b.txt
+"""
+    parser = argparse.ArgumentParser(
+        prog="mindgrep",
+        description=desc,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("-V", "--value", metavar="VAL", help="plain-text search string")
+    parser.add_argument("-F", "--file", dest="file_ext", help="filter by file extension")
+    parser.add_argument("-N", "--name", dest="name_filter", help="filter by filename substring")
+    parser.add_argument("--FN", dest="file_name_exact", help='filter by exact filename, e.g. --FN "main.py"')
+    parser.add_argument("-X", "--exclude", dest="exclude", help='exclude comma-separated basenames, e.g. -X "a.py,b.txt"')
+    parser.add_argument("-P", "--path", dest="path", default=".", help="root folder to scan")
+    parser.add_argument("-T", "--table", action="store_true", help="styled table output")
+    parser.add_argument("-J", "--json", action="store_true", help="JSON output")
+    parser.add_argument("-C", "--context", type=int, default=0, help="show N context lines")
+    parser.add_argument("--staged", action="store_true", help="scan only git-staged files")
+    parser.add_argument("--blame", action="store_true", help="show git blame")
+    parser.add_argument("--stats", action="store_true", help="show summary stats")
+    parser.add_argument("--report", choices=["markdown","html","json"], help="export stats report")
+    parser.add_argument("--interactive", action="store_true", help="interactive TUI mode")
+    parser.add_argument("--intent-list", action="store_true", help="list all supported intents")
+    parser.add_argument("--theme", choices=["light","dark"], default="light", help="color theme")
+    parser.add_argument("intent", nargs="?", help="intent name (ignored if -V used)")
+    args = parser.parse_args()
+
+    # prepare exclude list
+    exclude_list = []
+    if args.exclude:
+        exclude_list = [e.strip() for e in args.exclude.split(",") if e.strip()]
+
+    args.path = os.path.expanduser(args.path)
     apply_theme(args.theme)
     plugins = load_plugins()
 
+    # mode list-files only
+    if not args.intent and not args.value and (
+       args.file_ext or args.name_filter or args.file_name_exact
+    ):
+        found = []
+        ext = args.file_ext.lstrip(".").lower() if args.file_ext else None
+        for dp, _, files in os.walk(args.path):
+            for fn in files:
+                if fn in exclude_list:
+                    continue
+                if args.file_name_exact and fn != args.file_name_exact:
+                    continue
+                low = fn.lower()
+                if ext and not low.endswith(f".{ext}"):
+                    continue
+                if args.name_filter and args.name_filter.lower() not in low:
+                    continue
+                found.append(os.path.join(dp, fn))
+        if not found:
+            color_error("⚠️  No files matched your criteria!")
+            sys.exit(0)
+        tree = {}
+        for f in sorted(found):
+            rel = os.path.relpath(f, args.path)
+            parts = rel.split(os.sep)
+            node = tree
+            for p in parts[:-1]:
+                node = node.setdefault(p, {})
+            node.setdefault(parts[-1], [])
+        print(f"{DIR_COLOR}{os.path.abspath(args.path)}{os.sep}{RESET}")
+        print_tree(tree)
+        sys.exit(0)
+
+    # list intents
     if args.intent_list:
         print("Supported intents:")
         for i in sorted(INTENT_PATTERNS):
@@ -529,22 +519,34 @@ def main():
     root = args.path
     staged = get_staged_files(os.getcwd()) if args.staged else None
 
+    # search
     if args.value:
-        matches, results = search_value(args.value, root, args.file_ext, args.name_filter)
+        matches, results = search_value(
+            args.value, root,
+            args.file_ext, args.name_filter, args.file_name_exact
+        )
     else:
         if not args.intent:
-            p.print_help()
-            sys.exit(1)
+            parser.print_help(); sys.exit(1)
         q = args.intent.lower()
         intent = ALIAS_MAP.get(q) or resolve_intent(q, list(INTENT_PATTERNS))
         if not intent:
             color_error(f"⚠️  Intent `{args.intent}` not found")
             sys.exit(1)
-        matches, results = find_intent_matches(intent, root, args.file_ext, args.name_filter)
+        matches, results = find_intent_matches(
+            intent, root,
+            args.file_ext, args.name_filter, args.file_name_exact
+        )
 
+    # staged filter
     if staged is not None:
-        matches = {p:h for p,h in matches.items() if os.path.relpath(p, root) in staged}
+        matches = {p: h for p, h in matches.items() if os.path.relpath(p, root) in staged}
         results = [r for r in results if r["path"] in matches]
+
+    # apply exclude
+    if exclude_list:
+        matches = {p:h for p,h in matches.items() if os.path.basename(p) not in exclude_list}
+        results = [r for r in results if os.path.basename(r["path"]) not in exclude_list]
 
     if not matches:
         if args.json:
@@ -560,7 +562,7 @@ def main():
             for ln, _ in hits:
                 ctx[p].extend(with_context(p, ln, args.context))
         matches = ctx
-        results = [{"path":p, "line":ln, "code":c} for p,h in ctx.items() for ln,c in h]
+        results = [{"path": p, "line": ln, "code": c} for p, h in ctx.items() for ln, c in h]
 
     if args.blame:
         for r in results:
@@ -581,6 +583,7 @@ def main():
         interactive_view(matches)
         sys.exit(0)
 
+    # final output
     if args.json:
         print(json.dumps(results, indent=2))
     elif args.table:
